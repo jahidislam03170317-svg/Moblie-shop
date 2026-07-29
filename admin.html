@@ -73,7 +73,7 @@ if (localStorage.getItem("admin") !== "true") {
 }
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBdUsGHwAeVF-d8NQs40hEoGHhJmYirm-M"
+  apiKey: "AIzaSyBdUsGHwAeVF-d8NQs40hEoGHhJmYirm-M",
   authDomain: "jahid-mobile-shop.firebaseapp.com",
   projectId: "jahid-mobile-shop",
   storageBucket: "jahid-mobile-shop.firebasestorage.app",
@@ -89,8 +89,7 @@ window.addProduct = async function () {
   const name = document.getElementById("name").value;
   const price = document.getElementById("price").value;
   const image = document.getElementById("image").value;
-  const category = document.getElementById("category").value;
-
+  <select id="category">
   await addDoc(collection(db, "products"), {
     name,
     price,
