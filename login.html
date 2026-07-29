@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+<h2>🔐 Admin Login</h2>
+</header>
+
+<div style="padding:20px;max-width:400px;margin:auto;">
+
+<input id="email" type="email" placeholder="Email"><br><br>
+
+<input id="password" type="password" placeholder="Password"><br><br>
+
+<button id="loginBtn">Login</button>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBdUsGHwAeVF-d8NQs40hEoGHhJmYirm-M",
+  authDomain: "jahid-mobile-shop.firebaseapp.com",
+  projectId: "jahid-mobile-shop",
+  storageBucket: "jahid-mobile-shop.firebasestorage.app",
+  messagingSenderId: "501758307554",
+  appId: "1:501758307554:web:4ff36dad0e3508478782bb"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+document.getElementById("loginBtn").addEventListener("click", async () => {
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  try {
+
+    await signInWithEmailAndPassword(auth, email, password);
+
+    alert("Login Successful!");
+
+    window.location.href = "admin.html";
+
+  } catch (e) {
+
+    alert(e.message);
+
+  }
+
+});
+
+</script>
+
+</body>
+</html>
