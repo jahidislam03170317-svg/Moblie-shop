@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Checkout</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+<h2>💳 Checkout</h2>
+</header>
+
+<input id="customerName" type="text" placeholder="Your Name"><br><br>
+
+<input id="customerPhone" type="text" placeholder="Phone Number"><br><br>
+
+<input id="customerAddress" type="text" placeholder="Address"><br><br>
+<h3>💳 Payment Method</h3>
+
+<select id="payment">
+  <option value="Cash on Delivery">Cash on Delivery</option>
+  <option value="bKash">bKash</option>
+  <option value="Nagad">Nagad</option>
+</select>
+
+<br><br>
+<button onclick="placeOrder()">✅ Place Order const payment = document.getElementById("payment").value;</button>
+
+  <script type="module">
+   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBdUsGHwAeVF-d8NQs40hEoGHhJmYirm-M",
+  authDomain: "jahid-mobile-shop.firebaseapp.com",
+  projectId: "jahid-mobile-shop",
+  storageBucket: "jahid-mobile-shop.firebasestorage.app",
+  messagingSenderId: "501758307554",
+  appId: "1:501758307554:web:4ff36dad0e3508478782bb"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.placeOrder = async function () {
+
+  const name = document.getElementById("customerName").value;
+  const phone = document.getElementById("customerPhone").value;
+  const address = document.getElementById("customerAddress").value;
+
+  await addDoc(collection(db, "orders"), {
+    name,
+    phone,
+    address,
+    payment,
+    time: new Date().toISOString()
+  });
+
+  alert("✅ Order Placed Successfully!");
+
+};
+  window.open(
+  "https://wa.me/8801779158300?text=" +
+  encodeURIComponent(
+    "🛒 New Order\n\n" +
+    "Name: " + name +
+    "\nPhone: " + phone +
+    "\nAddress: " + address
+  )
+);
+  </script>
+</body>
+</html>
