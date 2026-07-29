@@ -9,7 +9,7 @@
 <title>Jahid Mobile Shop</title>
 
 <link rel="stylesheet" href="style.css">
-<script src="script.js" defer></script>
+
 
 </head>
 
@@ -25,16 +25,13 @@
 
 <a href="login.html">👤 Login</a>
 
-<a href="cart.html">
-  
-🛒 Cart (<span id="cartCount">0</span>)
-</a>
+  <a href="cart.html">🛒 Cart (<span id="cartCount">0</span>)</a>
 
-<a href="checkout.html">💳 Checkout</a>
+<a href="checkout.html">ℹ️Checkout</a>
 
 <a href="contact.html">📞 Contact</a>
 
-<a href="admin.html">⚙️ Admin</a>
+<a href="login.html">🔐 Admin Login</a>
 
 </div>
 
@@ -59,102 +56,100 @@ placeholder="🔍 Search iPhone, Android, Cover...">
 
 <div class="categories">
 
-<div class="cat">📱 iPhone</div>
-
-<div class="cat">🤖 Android</div>
 
 <div class="cat">📱 Cover</div>
 
 <div class="cat">🔌 Charger</div>
 
-<div class="cat">🎧 Earphone</div>
 
-<div class="cat">⌚ Smart Watch</div>
 
 </div>
 
 <h2>🔥 Featured Products</h2>
 
-<div class="products">
+<div id="products" class="products"></div>
+  
+  
+ <div class="card">
+  <img src="images/iphone-cover.jpg" alt="iPhone  Cover">
+  <h3>iPhone Cover</h3>
+  <p class="price">৳ 750-1250</p>
+  <button onclick="buy('iPhone 16 Pro Max Cover',850)">🛒 Add to Cart</button>
+  <button onclick="window.open('https://wa.me/8801XXXXXXXXX?text=আমি iPhone 16 Pro Max Cover অর্ডার করতে চাই')">💬 WhatsApp Order</button>
+</div>
+<div class="card">
+  <img src="images/s24-cover.jpg" alt="Samsung S24 Ultra Cover">
+  <h3>Samsung S24 Ultra Cover</h3>
+  <p class="price">৳700-1250</p>
+  <button onclick="buy('Samsung S24 Ultra Cover',700)">🛒 Add to Cart</button>
+  <button onclick="window.open('https://wa.me/8801XXXXXXXXX?text=আমি Samsung S24 Ultra Cover অর্ডার করতে চাই')">💬 WhatsApp Order</button>
+</div>
+<div class="card">
+  <img src="images/vivo-v50-cover.jpg" alt="Vivo V50 Cover">
+  <h3>Vivo V50 Cover</h3>
+  <p class="price">৳500-800</p>
+  <button onclick="buy('Vivo V50 Cover',500)">🛒 Add to Cart</button>
+  <button onclick="window.open('https://wa.me/8801XXXXXXXXX?text=আমি Vivo V50 Cover অর্ডার করতে চাই')">💬 WhatsApp Order</button>
+</div>
   <div class="card">
-<img src="images/iphone16-cover.jpg" alt="iPhone 16 Cover">
-<h3>iPhone 16 Pro Max Cover</h3>
-<p class="price">৳850</p>
-<button onclick="buy('iPhone 16 Pro Max Cover',850)">🛒 Add to Cart</button>
+  <img src="images/POCO X3 Pro cover.jpg" alt="POCO X3 Pro Cover">
+  <h3>POCO X3 Pro Cover</h3>
+  <p class="price">৳500-800</p>
+  <button onclick="buy('POCO X3 Pro ',500)">🛒 Add to Cart</button>
+  <button onclick="window.open('https://wa.me/8801XXXXXXXXX?text=আমি POCO X3 Pro Cover অর্ডার করতে চাই')">💬 WhatsApp Order</button>
 </div>
-
-<div class="card">
-<img src="images/samsung-cover.jpg" alt="Samsung Cover">
-<h3>Samsung S25 Ultra Cover</h3>
-<p class="price">৳700</p>
-<button onclick="buy('Samsung S25 Ultra Cover',700)">🛒 Add to Cart</button>
-</div>
-
-<div class="card">
-<img src="images/vivo-cover.jpg" alt="Vivo Cover">
-<h3>Vivo V50 Cover</h3>
-<p class="price">৳500</p>
-<button onclick="buy('Vivo V50 Cover',500)">🛒 Add to Cart</button>
-</div>
-
-<div class="card">
-<img src="images/oppo-cover.jpg" alt="Oppo Cover">
-<h3>Oppo Reno Cover</h3>
-<p class="price">৳550</p>
-<button onclick="buy('Oppo Reno Cover',550)">🛒 Add to Cart</button>
-</div>
-
-<div class="card">
-<img src="images/realme-cover.jpg" alt="Realme Cover">
-<h3>Realme Cover</h3>
-<p class="price">৳450</p>
-<button onclick="buy('Realme Cover',450)">🛒 Add to Cart</button>
-</div>
-  </div>
+  
 
 <footer>
  <p>© 2026 Jahid Mobile Shop. All Rights Reserved.</p>
 </footer>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js"; // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBdUsGHwAeVF-d8NQs40hEoGHhJmYirm-M",
+    authDomain: "jahid-mobile-shop.firebaseapp.com",
+    projectId: "jahid-mobile-shop",
+    storageBucket: "jahid-mobile-shop.firebasestorage.app",
+    messagingSenderId: "501758307554",
+    appId: "1:501758307554:web:4ff36dad0e3508478782bb",
+    measurementId: "G-5F86JN1V0R"
+  };
 
-let cart = [];
+  // Initialize Firebase
+  // Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-function buy(name, price){
+async function loadProducts() {
 
-cart.push({name, price});
+  let html = "";
 
-document.getElementById("cartCount").innerText = cart.length;
+  const snapshot = await getDocs(collection(db, "products"));
 
-alert(name + " কার্টে যোগ হয়েছে");
+  snapshot.forEach((item) => {
 
+    let p = item.data();
+
+    html += `
+      <div class="card">
+        <h3>${p.name}</h3>
+        <p>৳${p.price}</p>
+        <button>🛒 Add to Cart</button>
+      </div>
+    `;
+
+  });
+
+  document.getElementById("products").innerHTML = html;
 }
 
-const searchInput = document.getElementById("searchInput");
-
-searchInput.addEventListener("keyup", function(){
-
-let value = this.value.toLowerCase();
-
-let cards = document.querySelectorAll(".card");
-
-cards.forEach(function(card){
-
-if(card.innerText.toLowerCase().includes(value)){
-
-card.style.display = "block";
-
-}else{
-
-card.style.display = "none";
-
-}
-
-});
-
-});
-
+loadProducts();
 </script>
-
 </body>
 </html>

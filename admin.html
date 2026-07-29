@@ -45,7 +45,7 @@
 <option>Cover</option>
 <option>Charger</option>
 <option>Earphone</option>
-</select>
+<select id="category">
 
 <br><br>
 
@@ -68,9 +68,7 @@ import {
   doc
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
-if (localStorage.getItem("admin") !== "true") {
-  window.location = "login.html";
-}
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBdUsGHwAeVF-d8NQs40hEoGHhJmYirm-M",
@@ -89,7 +87,7 @@ window.addProduct = async function () {
   const name = document.getElementById("name").value;
   const price = document.getElementById("price").value;
   const image = document.getElementById("image").value;
-  <select id="category">
+  const category = document.getElementById("category").value;
   await addDoc(collection(db, "products"), {
     name,
     price,
