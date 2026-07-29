@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+  <div class="logo">⚙️ Admin Panel</div>
+</header>
+
+<div style="padding:20px">
+
+<button onclick="logout()">🚪 Logout</button>
+<br><br>
+
+<h2>📦 Orders</h2>
+<div id="orderList"></div>
+
+<hr><br>
+
+<h2>📱 All Products</h2>
+
+<div id="productList"></div>
+
+<br>
+
+<input id="name" type="text" placeholder="Product Name">
+<br><br>
+
+<input id="price" type="number" placeholder="Price">
+<br><br>
+
+<input id="image" type="text" placeholder="Image URL">
+<br><br>
+
+<select id="category">
+<option>iPhone</option>
+<option>Android</option>
+<option>Cover</option>
+<option>Charger</option>
+<option>Earphone</option>
+</select>
+
+<br><br>
+
+<button onclick="addProduct()">➕ Add Product</button>
+
+<br><br>
+
+<a href="index.html">⬅ Back To Home</a>
+
+</div>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+if (localStorage.getItem("admin") !== "true") {
+  window.location = "login.html";
+}
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBdUsGHwAeVF-d8NQs40hEoGHhJmYirm-M"
+  authDomain: "jahid-mobile-shop.firebaseapp.com",
+  projectId: "jahid-mobile-shop",
+  storageBucket: "jahid-mobile-shop.firebasestorage.app",
+  messagingSenderId: "501758307554",
+  appId: "1:501758307554:web:4ff36dad0e3508478782bb"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.addProduct = async function () {
+
+  const name = document.getElementById("name").value;
+  const price = document.getElementById("price").value;
+  const image = document.getElementById("image").value;
+  const category = document.getElementById("category").value;
+
+  await addDoc(collection(db, "products"), {
+    name,
+    price,
+    image,
+    category
+  });
+
+  alert("Product Added Successfully!");
+
+  document.getElementById("name").value = "";
+  document.getElementById("price").value = "";
+  document.getElementById("image").value = "";
+
+  loadProducts();
+};
+
+async function loadProducts() {
+
+  let html = "";
+
+  const snapshot = await getDocs(collection(db, "products"));
+
+  snapshot.forEach((item) => {
+
+    const p = item.data();
+
+    html += `
+      <div class="card">
+        <h3>${p.name}</h3>
+        <p>৳${p.price}</p>
+        <button onclick="deleteProduct('${item.id}')">🗑 Delete</button>
+      </div>
+    `;
+
+  });
+
+  document.getElementById("productList").innerHTML = html;
+}
+
+window.deleteProduct = async function(id){
+
+  await deleteDoc(doc(db,"products",id));
+
+  alert("Product Deleted!");
+
+  loadProducts();
+};
+  // Load Orders
+async function loadOrders() {
+
+  let html = "";
+
+  const snapshot = await getDocs(collection(db, "orders"));
+
+  snapshot.forEach((item) => {
+
+    const o = item.data();
+
+    html += `
+      <div class="card">
+        <h3>${o.name}</h3>
+        <p>📞 ${o.phone}</p>
+        <p>📍 ${o.address}</p>
+        <p>💳 ${o.payment}</p>
+
+        <button onclick="deleteOrder('${item.id}')">
+          ✅ Complete
+        </button>
+      </div>
+    `;
+
+  });
+
+  document.getElementById("orderList").innerHTML = html;
+}
+
+// Delete Order
+window.deleteOrder = async function(id){
+
+  await deleteDoc(doc(db, "orders", id));
+
+  alert("Order Completed!");
+
+  loadOrders();
+};
+
+// Logout
+window.logout = function(){
+
+  localStorage.removeItem("admin");
+
+  window.location = "login.html";
+
+};
+
+// First Load
+loadProducts();
+loadOrders();
+
+</script>
+
+</body>
+</html>
