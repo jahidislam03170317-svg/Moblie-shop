@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Jahid Mobile Shop</title>
+
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+
+</head>
+
+<body>
+
+<header class="header">
+
+<div class="logo">
+📱 Jahid Mobile Shop
+</div>
+
+<div class="icons">
+
+<a href="login.html">👤 Login</a>
+
+<a href="cart.html">
+  
+🛒 Cart (<span id="cartCount">0</span>)
+</a>
+
+<a href="checkout.html">💳 Checkout</a>
+
+<a href="contact.html">📞 Contact</a>
+
+<a href="admin.html">⚙️ Admin</a>
+
+</div>
+
+</header>
+
+<div class="search-box">
+
+<input
+type="text"
+id="searchInput"
+placeholder="🔍 Search iPhone, Android, Cover...">
+
+</div>
+
+<div class="banner">
+
+<img src="images/banner.jpg" alt="Banner">
+
+</div>
+
+<h2>📂 Categories</h2>
+
+<div class="categories">
+
+<div class="cat">📱 iPhone</div>
+
+<div class="cat">🤖 Android</div>
+
+<div class="cat">📱 Cover</div>
+
+<div class="cat">🔌 Charger</div>
+
+<div class="cat">🎧 Earphone</div>
+
+<div class="cat">⌚ Smart Watch</div>
+
+</div>
+
+<h2>🔥 Featured Products</h2>
+
+<div class="products">
+  <div class="card">
+<img src="images/iphone16-cover.jpg" alt="iPhone 16 Cover">
+<h3>iPhone 16 Pro Max Cover</h3>
+<p class="price">৳850</p>
+<button onclick="buy('iPhone 16 Pro Max Cover',850)">🛒 Add to Cart</button>
+</div>
+
+<div class="card">
+<img src="images/samsung-cover.jpg" alt="Samsung Cover">
+<h3>Samsung S25 Ultra Cover</h3>
+<p class="price">৳700</p>
+<button onclick="buy('Samsung S25 Ultra Cover',700)">🛒 Add to Cart</button>
+</div>
+
+<div class="card">
+<img src="images/vivo-cover.jpg" alt="Vivo Cover">
+<h3>Vivo V50 Cover</h3>
+<p class="price">৳500</p>
+<button onclick="buy('Vivo V50 Cover',500)">🛒 Add to Cart</button>
+</div>
+
+<div class="card">
+<img src="images/oppo-cover.jpg" alt="Oppo Cover">
+<h3>Oppo Reno Cover</h3>
+<p class="price">৳550</p>
+<button onclick="buy('Oppo Reno Cover',550)">🛒 Add to Cart</button>
+</div>
+
+<div class="card">
+<img src="images/realme-cover.jpg" alt="Realme Cover">
+<h3>Realme Cover</h3>
+<p class="price">৳450</p>
+<button onclick="buy('Realme Cover',450)">🛒 Add to Cart</button>
+</div>
+  </div>
+
+<footer>
+ <p>© 2026 Jahid Mobile Shop. All Rights Reserved.</p>
+</footer>
+
+<script>
+
+let cart = [];
+
+function buy(name, price){
+
+cart.push({name, price});
+
+document.getElementById("cartCount").innerText = cart.length;
+
+alert(name + " কার্টে যোগ হয়েছে");
+
+}
+
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("keyup", function(){
+
+let value = this.value.toLowerCase();
+
+let cards = document.querySelectorAll(".card");
+
+cards.forEach(function(card){
+
+if(card.innerText.toLowerCase().includes(value)){
+
+card.style.display = "block";
+
+}else{
+
+card.style.display = "none";
+
+}
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
