@@ -1,205 +1,184 @@
+/* ===========================
+   Jahid Mobile Shop v2
+   style.css
+=========================== */
+
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
 body{
-    background:#f5f5f5;
+background:#f5f5f5;
+color:#222;
 }
 
 .header{
-    background:#0a8f3d;
-    color:#fff;
-    padding:15px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    position:sticky;
-    top:0;
+background:#111;
+color:#fff;
+padding:15px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
 }
 
 .logo{
-    font-size:24px;
-    font-weight:bold;
+font-size:24px;
+font-weight:bold;
 }
 
-.icons button{
-    padding:10px 15px;
-    margin-left:5px;
-    border:none;
-    border-radius:8px;
-    background:#fff;
-    color:#0a8f3d;
-    font-weight:bold;
-    cursor:pointer;
+.icons a{
+color:#fff;
+text-decoration:none;
+margin-left:15px;
+font-size:15px;
+}
+
+.icons a:hover{
+color:#00ffcc;
 }
 
 .search-box{
-    padding:15px;
+padding:20px;
+text-align:center;
 }
 
 .search-box input{
-    width:100%;
-    padding:12px;
-    border-radius:30px;
-    border:1px solid #ddd;
-    font-size:16px;
+width:90%;
+max-width:500px;
+padding:12px;
+border-radius:8px;
+border:1px solid #ccc;
+font-size:16px;
 }
 
 .banner img{
-    width:100%;
-    height:200px;
-    object-fit:cover;
-    border-radius:12px;
+width:100%;
+max-height:300px;
+object-fit:cover;
 }
 
 h2{
-    margin:15px;
+padding:20px;
 }
 
 .categories{
-    display:flex;
-    gap:10px;
-    overflow:auto;
-    padding:15px;
+display:flex;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
+padding:10px;
 }
 
 .cat{
-    min-width:100px;
-    background:#0a8f3d;
-    color:#fff;
-    padding:15px;
-    border-radius:10px;
-    text-align:center;
-    cursor:pointer;
+background:#fff;
+padding:15px 20px;
+border-radius:10px;
+cursor:pointer;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+transition:.3s;
+}
+
+.cat:hover{
+background:#111;
+color:#fff;
 }
 
 .products{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
-    padding:15px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+padding:20px;
 }
 
 .card{
-    background:#fff;
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 2px 8px rgba(0,0,0,.1);
+background:#fff;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+padding:15px;
+text-align:center;
 }
 
 .card img{
-    width:100%;
-    height:180px;
-    object-fit:cover;
+width:100%;
+height:220px;
+object-fit:cover;
 }
 
 .card h3{
-    padding:10px;
-    font-size:16px;
+margin:10px 0;
 }
 
 .price{
-    color:#0a8f3d;
-    font-size:18px;
-    font-weight:bold;
-    padding:0 10px;
+color:red;
+font-size:18px;
+font-weight:bold;
+margin-bottom:10px;
 }
 
-.buy{
-    width:100%;
-    padding:12px;
-    border:none;
-    background:#0a8f3d;
-    color:#fff;
-    cursor:pointer;
-}
-.icons a,
-.icons button{
-    background:#fff;
-    color:#0a8f3d;
-    padding:8px 14px;
-    border:none;
-    border-radius:6px;
-    text-decoration:none;
-    margin-left:8px;
-    cursor:pointer;
-    font-weight:bold;
+button{
+background:#111;
+color:#fff;
+border:none;
+padding:10px 15px;
+border-radius:8px;
+cursor:pointer;
+margin:5px;
 }
 
-.search{
-    padding:15px;
+button:hover{
+background:#00a884;
 }
 
-.search input{
-    width:100%;
-    padding:12px;
-    border:1px solid #ccc;
-    border-radius:8px;
-    font-size:16px;
+input,
+select{
+width:100%;
+padding:12px;
+margin:8px 0;
+border:1px solid #ccc;
+border-radius:8px;
 }
 
-.banner img{
-    width:100%;
-    border-radius:10px;
+footer{
+background:#111;
+color:#fff;
+text-align:center;
+padding:20px;
+margin-top:30px;
 }
 
-.title{
-    margin:20px 15px 10px;
+@media(max-width:768px){
+
+.header{
+flex-direction:column;
+gap:10px;
 }
 
-.categories{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    padding:15px;
+.icons{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
 }
 
-.categories a,
-.cat{
-    background:#0a8f3d;
-    color:#fff;
-    padding:10px 15px;
-    border-radius:8px;
-    text-decoration:none;
+.icons a{
+margin:8px;
 }
 
 .products{
-    display:flex;
-    flex-wrap:wrap;
-    gap:15px;
-    padding:15px;
+grid-template-columns:repeat(2,1fr);
 }
 
-.card{
-    background:#fff;
-    width:220px;
-    border-radius:10px;
-    padding:15px;
-    text-align:center;
-    box-shadow:0 2px 8px rgba(0,0,0,.1);
 }
 
-.card img{
-    width:100%;
-    border-radius:10px;
+@media(max-width:480px){
+
+.products{
+grid-template-columns:1fr;
 }
 
-.price{
-    color:red;
-    font-size:20px;
-    font-weight:bold;
 }
-
-.card button{
-    background:#0a8f3d;
-    color:#fff;
-    border:none;
-    padding:10px 15px;
-    border-radius:6px;
-    cursor:pointer;
-} 
-
 

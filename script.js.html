@@ -1,0 +1,185 @@
+//=============================
+// Jahid Mobile Shop v2
+// script.js
+//=============================
+
+// ---------- CART ----------
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+updateCartCount();
+
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartCount();
+}
+
+function updateCartCount() {
+  const c = document.getElementById("cartCount");
+  if (c) c.innerText = cart.length;
+}
+
+// ---------- ADD TO CART ----------
+window.buy = function(name, price, image = "") {
+
+  cart.push({
+    name,
+    price,
+    image,
+    qty: 1
+  });
+
+  saveCart();
+
+  alert("✅ Added To Cart");
+};
+
+// ---------- REMOVE ----------
+window.removeItem = function(index){
+
+  cart.splice(index,1);
+
+  saveCart();
+
+  loadCart();
+
+};
+
+// ---------- LOAD CART ----------
+window.loadCart = function(){
+
+  const box = document.getElementById("cartItems");
+
+  if(!box) return;
+
+  if(cart.length===0){
+
+    box.innerHTML="<h3>Your Cart Is Empty</h3>";
+
+    return;
+
+  }
+
+  let html="";
+
+  let total=0;
+
+  cart.forEach((p,index)=>{
+
+    total += Number(p.price);
+
+    html += `
+      <div class="card">
+
+      <img src="${p.image}" style="width:120px">
+
+      <h3>${p.name}</h3>
+
+      <p>৳ ${p.price}</p>
+
+      <button onclick="removeItem(${index})">
+      ❌ Remove
+      </button>
+
+      </div>
+    `;
+
+  });
+
+  html += `
+  <h2>Total : ৳ ${total}</h2>
+  `;
+
+  box.innerHTML = html;
+
+};
+
+// ---------- SEARCH ----------
+window.searchProduct=function(){
+
+let input=document.getElementById("searchInput");
+
+if(!input) return;
+
+let value=input.value.toLowerCase();
+
+let cards=document.querySelectorAll(".card");
+
+cards.forEach(card=>{
+
+let text=card.innerText.toLowerCase();
+
+if(text.includes(value))
+card.style.display="block";
+else
+card.style.display="none";
+
+});
+
+}
+
+const search=document.getElementById("searchInput");
+
+if(search){
+
+search.addEventListener("keyup",searchProduct);
+
+}
+
+// ---------- CHECKOUT ----------
+window.orderNow=function(){
+
+let name=document.getElementById("customerName").value;
+
+let phone=document.getElementById("customerPhone").value;
+
+let address=document.getElementById("customerAddress").value;
+
+if(name==""||phone==""||address==""){
+
+alert("সব তথ্য পূরণ করুন");
+
+return;
+
+}
+
+let total=0;
+
+cart.forEach(p=>{
+
+total += Number(p.price);
+
+});
+
+let message =
+"🛒 Jahid Mobile Shop Order\n\n"+
+"👤 Name : "+name+
+"\n📞 Phone : "+phone+
+"\n📍 Address : "+address+
+"\n💰 Total : "+total+" Tk";
+
+cart.forEach((p,i)=>{
+
+message += "\n"+(i+1)+". "+p.name+" - "+p.price+" Tk";
+
+});
+
+window.open(
+
+"https://wa.me/8801779158300?text="+
+
+encodeURIComponent(message)
+
+);
+
+localStorage.removeItem("cart");
+
+cart=[];
+
+updateCartCount();
+
+alert("✅ Order Sent");
+
+};
+
+// ---------- FIRST LOAD ----------
+loadCart();

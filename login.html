@@ -1,33 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Admin Login</title>
 
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
 <header class="header">
-<h2>🔐 Admin Login</h2>
+<div class="logo">
+🔐 Admin Login
+</div>
 </header>
 
-<div style="padding:20px;max-width:400px;margin:auto;">
+<div style="max-width:400px;margin:auto;padding:20px;">
 
-<input id="email" type="email" placeholder="Email"><br><br>
+<input
+id="email"
+type="email"
+placeholder="Admin Email">
 
-<input id="password" type="password" placeholder="Password"><br><br>
+<input
+id="password"
+type="password"
+placeholder="Password">
 
-<button id="loginBtn">Login</button>
+<button onclick="login()">
+Login
+</button>
+
+<a href="index.html">
+⬅ Back Home
+</a>
 
 </div>
 
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+getAuth,
+signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBdUsGHwAeVF-d8NQs40hEoGHhJmYirm-M",
@@ -38,29 +59,49 @@ const firebaseConfig = {
   appId: "1:501758307554:web:4ff36dad0e3508478782bb"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+const app=initializeApp(firebaseConfig);
 
-document.getElementById("loginBtn").addEventListener("click", async () => {
+const auth=getAuth(app);
 
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+window.login=async function(){
 
-  try {
+const email=document.getElementById("email").value;
 
-    await signInWithEmailAndPassword(auth, email, password);
+const password=document.getElementById("password").value;
 
-    alert("Login Successful!");
+if(email==""||password==""){
 
-    window.location.href = "admin.html";
+alert("সব তথ্য দিন");
 
-  } catch (e) {
+return;
 
-    alert(e.message);
+}
 
-  }
+try{
 
-});
+await signInWithEmailAndPassword(
+
+auth,
+
+email,
+
+password
+
+);
+
+localStorage.setItem("admin","true");
+
+alert("Login Successful");
+
+window.location.href="admin.html";
+
+}catch(e){
+
+alert(e.message);
+
+}
+
+}
 
 </script>
 

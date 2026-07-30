@@ -1,86 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Cart</title>
+
+<title>Admin Panel</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
-<script>
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-let html = "";
-let total = 0;
-
-cart.forEach(item => {
-  html += `<p>${item.name} - ৳${item.price}</p>`;
-  total += Number(item.price);
-});
-
-document.getElementById("cartItems").innerHTML = html;
-document.getElementById("total").innerHTML = "Total: ৳" + total;
-</script>
 <header class="header">
-<div class="logo">🛒 My Cart</div>
+
+<div class="logo">
+⚙️ Admin Panel
+</div>
+
+<div class="icons">
+
+<button onclick="logout()">
+Logout
+</button>
+
+</div>
+
 </header>
 
-<div style="padding:20px;">
+<div style="padding:20px">
 
-<h2>Your Cart</h2>
+<h2>➕ Add Product</h2>
 
-<div id="cartItems"></div>
+<input
+id="name"
+type="text"
+placeholder="Product Name">
 
-<h3 id="total">Total: ৳0</h3>
+<input
+id="price"
+type="number"
+placeholder="Price">
 
-<button onclick="location.href='index.html'">
-⬅ Back To Shop
+<input
+id="image"
+type="text"
+placeholder="Image URL">
+
+<select id="category">
+
+<option>iPhone</option>
+<option>Samsung</option>
+<option>Vivo</option>
+<option>Xiaomi</option>
+<option>Realme</option>
+<option>Cover</option>
+<option>Charger</option>
+<option>Earphone</option>
+
+</select>
+
+<button onclick="addProduct()">
+Add Product
 </button>
 
-<button onclick="location.href='checkout.html'">
-💳 Checkout
+<hr>
+
+<h2>📦 Products</h2>
+
+<div id="productList"></div>
+
+<hr>
+
+<h2>🛒 Orders</h2>
+
+<div id="orderList"></div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+
+getFirestore,
+
+collection,
+
+addDoc,
+
+getDocs,
+
+deleteDoc,
+
+doc
+
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+if(localStorage.getItem("admin")!="true"){
+
+window.location="login.html";
+
+}
+
+const firebaseConfig={
+
+apiKey:"YOUR_API_KEY",
+
+authDomain:"YOUR_AUTH_DOMAIN",
+
+projectId:"YOUR_PROJECT_ID",
+
+storageBucket:"YOUR_STORAGE_BUCKET",
+
+messagingSenderId:"YOUR_SENDER_ID",
+
+appId:"YOUR_APP_ID"
+
+};
+
+const app=initializeApp(firebaseConfig);
+
+const db=getFirestore(app);
+
+window.addProduct=async()=>{
+
+const name=document.getElementById("name").value;
+
+const price=document.getElementById("price").value;
+
+const image=document.getElementById("image").value;
+
+const category=document.getElementById("category").value;
+
+await addDoc(collection(db,"products"),{
+
+name,
+
+price,
+
+image,
+
+category
+
+});
+
+alert("Product Added");
+
+loadProducts();
+
+};
+
+async function loadProducts(){
+
+let html="";
+
+const snap=await getDocs(collection(db,"products"));
+
+snap.forEach(item=>{
+
+const p=item.data();
+
+html+=`
+
+<div class="card">
+
+<img src="${p.image}" width="120">
+
+<h3>${p.name}</h3>
+
+<p>৳ ${p.price}</p>
+
+<p>${p.category}</p>
+
+<button onclick="deleteProduct('${item.id}')">
+
+Delete
+
 </button>
 
 </div>
 
-<script>
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-let cartItems = document.getElementById("cartItems");
-let total = 0;
-
-if(cart.length === 0){
-    cartItems.innerHTML = "<p>🛒 Cart is empty.</p>";
-}else{
-
-cart.forEach((item,index)=>{
-
-total += Number(item.price);
-
-cartItems.innerHTML += `
-<div style="border:1px solid #ddd;padding:10px;margin:10px 0;">
-<h3>${item.name}</h3>
-<p>Price: ৳${item.price}</p>
-<button onclick="removeItem(${index})">❌ Remove</button>
-</div>
 `;
 
 });
 
-}
-
-document.getElementById("total").innerText="Total: ৳"+total;
-
-function removeItem(index){
-
-cart.splice(index,1);
-
-localStorage.setItem("cart",JSON.stringify(cart));
-
-location.reload();
+document.getElementById("productList").innerHTML=html;
 
 }
+
+window.deleteProduct=async(id)=>{
+
+await deleteDoc(doc(db,"products",id));
+
+loadProducts();
+
+};
+
+async function loadOrders(){
+
+let html="";
+
+const snap=await getDocs(collection(db,"orders"));
+
+snap.forEach(item=>{
+
+const o=item.data();
+
+html+=`
+
+<div class="card">
+
+<h3>${o.name}</h3>
+
+<p>${o.phone}</p>
+
+<p>${o.address}</p>
+
+<button onclick="deleteOrder('${item.id}')">
+
+Complete
+
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("orderList").innerHTML=html;
+
+}
+
+window.deleteOrder=async(id)=>{
+
+await deleteDoc(doc(db,"orders",id));
+
+loadOrders();
+
+};
+
+window.logout=function(){
+
+localStorage.removeItem("admin");
+
+window.location="login.html";
+
+}
+
+loadProducts();
+
+loadOrders();
+
 </script>
 
 </body>
