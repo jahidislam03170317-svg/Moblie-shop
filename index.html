@@ -8,7 +8,6 @@
 <title>Jahid Mobile Shop</title>
 
 <link rel="stylesheet" href="style.css">
-<script src="script.js" defer></script>
 
 </head>
 
@@ -163,6 +162,47 @@ placeholder="🔍 Search Product...">
 <p>© 2026 Jahid Mobile Shop. All Rights Reserved.</p>
 
 </footer>
+<script>
 
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function updateCartCount(){
+  let c = document.getElementById("cartCount");
+  if(c) c.innerText = cart.length;
+}
+
+function buy(name,price,image){
+
+  cart.push({
+    name:name,
+    price:price,
+    image:image
+  });
+
+  localStorage.setItem("cart",JSON.stringify(cart));
+
+  updateCartCount();
+
+  alert("✅ Added To Cart");
+
+}
+
+document.getElementById("searchInput").addEventListener("keyup",function(){
+
+let value=this.value.toLowerCase();
+
+document.querySelectorAll(".card").forEach(card=>{
+
+card.style.display=
+card.innerText.toLowerCase().includes(value)
+? "block":"none";
+
+});
+
+});
+
+updateCartCount();
+
+</script>
 </body>
 </html>
