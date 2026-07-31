@@ -6,7 +6,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
+  apiKey: "AIzaSyBdUsGHwAeVF-d8NQs40hEoGHhJmYirm-M",
   authDomain: "jahid-mobile-shop.firebaseapp.com",
   projectId: "jahid-mobile-shop",
   storageBucket: "jahid-mobile-shop.firebasestorage.app",
@@ -19,25 +19,36 @@ const db = getFirestore(app);
 
 async function loadProducts() {
 
-  const productList = document.getElementById("productList");
-  productList.innerHTML = "";
+  const productBox = document.getElementById("products");
 
-  const snap = await getDocs(collection(db, "products"));
+  let html = "";
 
-  snap.forEach((doc) => {
+  const snapshot = await getDocs(collection(db, "products"));
+
+  snapshot.forEach((doc) => {
 
     const p = doc.data();
 
-    productList.innerHTML += `
-      <div class="box">
-        <img src="${p.image}" width="120">
+    html += `
+      <div class="card">
+        <img src="${p.image}" alt="${p.name}">
         <h3>${p.name}</h3>
-        <p>Category: ${p.category}</p>
-        <p>Price: ৳${p.price}</p>
+        <p>৳ ${p.price}</p>
+
+        <button onclick="addToCart('${doc.id}')">
+          Add To Cart
+        </button>
       </div>
     `;
+
   });
 
+  productBox.innerHTML = html;
+
 }
+
+window.addToCart = function(id){
+  alert("Product Added To Cart");
+};
 
 loadProducts();
